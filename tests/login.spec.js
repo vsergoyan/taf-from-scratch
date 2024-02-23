@@ -1,18 +1,28 @@
-// @ts-check
-const { test, expect } = require('@playwright/test')
-import loginPage from "../business/login.page.js"
-import { userInfo } from "../configuration/constant.js"
+import { test, expect } from "@playwright/test";
+import loginPage from "../business/login.page.js";
+import { userInfo, message } from "../business/constant.js";
+import winston from "winston";
 
-test('Login successed', async ({ page }) => {
-  await loginPage.openLoginPage(page)
-  await loginPage.login(userInfo.valid.user, userInfo.valid.password, page)
-  await expect(page.locator("css=.notificationItem__message-container--eN8Rd.notificationItem__success--Yvo7V p"))
-    .toHaveText('Signed in successfully');
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.json(),
+  transports: [new winston.transports.Console()],
 });
 
-test('Login failed', async ({ page }) => {
-  await loginPage.openLoginPage(page)
-  await loginPage.login(userInfo.invalid.user, userInfo.invalid.password, page)
-  await expect(page.locator("css=.notificationItem__message-container--eN8Rd.notificationItem__error--gkqHe p"))
-    .toHaveText('An error occurred while connecting to server: You do not have enough permissions. Bad credentials');
+test("Login successed", async ({ page }) => {      
+  logger.info("Navigation to Login page");
+  await loginPage.openLoginPage(page);
+  logger.info("Entering the correct username");
+  await loginPage.login(userInfo.valid.user, userInfo.valid.password, page);
+  logger.info("Entering the correct password");
+  await expect(page.locator(loginPage.locatorForSuccessMessage)).toHaveText(message.loginSuccess);
+});
+
+test("Login failed", async ({ page }) => {
+  logger.info("Navigation to Login page");
+  await loginPage.openLoginPage(page);
+  logger.info("Entering the incorrect username");
+  await loginPage.login(userInfo.invalid.user, userInfo.invalid.password, page);
+  logger.info("Entering the incorrect password");
+  await expect(page.locator(loginPage.locatorForFailMessage)).toHaveText(message.loginFail);
 });

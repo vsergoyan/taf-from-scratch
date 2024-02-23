@@ -1,14 +1,21 @@
 {
-  "name": "aaaaa",
+  "name": "playwright_cucumber",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test --headed --project chromium --config=configuration/playwright.config.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.41.1",
-    "@types/node": "^20.11.13"
+    "@types/node": "^20.11.13",
+    "eslint": "^8.56.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "dependencies": {
+    "winston": "^3.11.0"
   }
 }
