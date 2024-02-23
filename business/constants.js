@@ -1,11 +1,16 @@
+import * as dotenv  from "dotenv";
+
+dotenv.config();
+
+
 export const userInfo = {
     "valid": {
-        "user": "vsergoyan",
-        "password": "Vard2002$"
+        "username": process.env.rpUsername,
+        "password": process.env.rpPassword,
     },
     "invalid": {
-        "user": "wrong",
-        "password": "wrong"
+        "username": "wrong",
+        "password": "wrong",
     }
 };
 
