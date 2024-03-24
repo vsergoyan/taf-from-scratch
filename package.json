@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test --headed --project chromium --config=configuration/playwright.config.js"
+    "test": "npx playwright test --headed --project chromium --config=configuration/playwright.config.js",
+    "lint": "npx eslint"
   },
   "keywords": [],
   "author": "",

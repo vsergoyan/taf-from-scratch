@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import loginPage from "../business/pages/login.page.js";
 import { userInfo, message } from "../business/constants.js";
-import logger from "../utilites/Logger.js"
+import logger from "../utilites/Logger.js";
 
 test("Login successed", async ({ page }) => {      
   logger.info("Navigation to Login page");

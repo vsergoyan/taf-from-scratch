@@ -6,7 +6,6 @@ const { defineConfig, devices } = require('@playwright/test');
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
-
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -35,7 +34,10 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1920, height: 1080 }
+     },
     },
     /* Test against mobile viewports. */
     // {
