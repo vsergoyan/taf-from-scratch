@@ -1,129 +1,161 @@
 import { test, expect, chromium } from "@playwright/test";
-import loginPage from "../business/pages/login.page.js";
-import launchPage from "../business/pages/launch.page.js";
-import { userInfo, message } from "../business/constants.js";
+import { LaunchPage } from "../business/pages/launch.page.js";
+import { LoginPage } from "../business/pages/login.page.js";
+import { userInfo } from "../business/constants.js";
 import logger from "../utilites/Logger.js";
 import testData from "../resources/testData.json";
 
-// test.describe("Launches Info", () => {
-//     let page;
-
-//     test.beforeAll(async () => {
-//         const browser = await chromium.launch();
-//         page = await browser.newPage();
-//         logger.info("Navigation to Login page");
-//         await loginPage.openLoginPage(page);
-//         logger.info("Entering the correct username and password");
-//         await loginPage.login(userInfo.valid.username, userInfo.valid.password, page);
-//         await expect(page.locator(loginPage.locatorForSuccessMessage)).toHaveText(message.loginSuccess);
-//         logger.info("Navigation to Launches page");
-//         await launchPage.openLaunchPage(page);
-//         await expect(page.locator(launchPage.locatorForFirstLaunch)).toBeVisible();
-//         await page.locator(launchPage.locatorFilterByStartTime).click();
-//     });
-
-//     for (let i = 0; i < testData.content.length; i++) {
-//         test(`should have corresponding launch owner name: ${i + 1}`, async () => {
-//             await expect(page.locator(launchPage.getLaunchLocator(i))).toHaveText(testData.content[i].owner);
-//         });
-//         test(`should have corresponding launch number: ${i + 1}`, async () => {
-//             await expect(page.locator(launchPage.getLaunchNumberLocator(i))).toHaveText(`#${testData.content[i].number}`);
-//         });
-////       This test case is not needed!!!
-//         test(`should have corresponding total bags count: ${i + 1}`, async () => {
-//             await expect(page.locator(launchPage.getTotalLocator(i))).toHaveText((testData.content[i].statistics.executions.total).toString());
-//         });
-//         test(`should have corresponding automation bags count: ${i + 1}`, async () => {
-//             if (Object.hasOwn(testData.content[i].statistics.defects, "automation_bug")) {
-//                 await expect(page.locator(launchPage.getAutomationBagLocator(i))).toHaveText((testData.content[i].statistics.defects.automation_bug.total).toString());
-//             }
-//         });
-//         test(`should have corresponding product bags count: ${i + 1}`, async () => {
-//             if (Object.hasOwn(testData.content[i].statistics.defects, "product_bug")) {
-//                 await expect(page.locator(launchPage.getProductBugLocator(i))).toHaveText((testData.content[i].statistics.defects.product_bug.total).toString());
-//             }
-//         });
-//         test(`should have corresponding system issues count: ${i + 1}`, async () => {
-//             if (Object.hasOwn(testData.content[i].statistics.defects, "system_issue")) {
-//                 await expect(page.locator(launchPage.getSystemIssueLocator(i))).toHaveText((testData.content[i].statistics.defects.system_issue.total).toString());
-//             }
-//         });
-//         test(`should have corresponding bags count to investigate: ${i + 1}`, async () => {
-//             if (Object.hasOwn(testData.content[i].statistics.defects, "to_investigate")) {
-//                 await expect(page.locator(launchPage.getInvestigateLocator(i))).toHaveText((testData.content[i].statistics.defects.to_investigate.total).toString());
-//             }
-//         });
-//         test(`should have corresponding total tests count: ${i + 1}`, async () => {
-//             if (Object.hasOwn(testData.content[i].statistics.executions, "total")) {
-//                 await expect(page.locator(launchPage.getTotalTestsCountLocator(i))).toHaveText((testData.content[i].statistics.executions.total).toString());
-//             }
-//         });
-//         test(`should have corresponding passed tests count: ${i + 1}`, async () => {
-//             if (Object.hasOwn(testData.content[i].statistics.executions, "passed")) {
-//                 await expect(page.locator(launchPage.getPassedTestsCountLocator(i))).toHaveText((testData.content[i].statistics.executions.passed).toString());
-//             }
-//         });
-//         test(`should have corresponding failed tests count: ${i + 1}`, async () => {
-//             if (Object.hasOwn(testData.content[i].statistics.executions, "failed")) {
-//                 await expect(page.locator(launchPage.getFailedTestsCountLocator(i))).toHaveText((testData.content[i].statistics.executions.failed).toString());
-//             }
-//         });
-//         test(`should have corresponding skipped tests count: ${i + 1}`, async () => {
-//             if (Object.hasOwn(testData.content[i].statistics.executions, "skipped")) {
-//                 await expect(page.locator(launchPage.getSkippedTestsCountLocator(i))).toHaveText((testData.content[i].statistics.executions.skipped).toString());
-//             }
-//         });
-//     }
-// });
-
-test.describe("Launches Filters", () => {
-    let page;
+test.describe("Launches Info", () => {
+    let page, launchPage, loginPage;
 
     test.beforeAll(async () => {
         const browser = await chromium.launch();
         page = await browser.newPage();
+        launchPage = new LaunchPage(page);
+        loginPage = new LoginPage(page);
         logger.info("Navigation to Login page");
-        await loginPage.openLoginPage(page);
+        await loginPage.openPage(page);
         logger.info("Entering the correct username and password");
-        await loginPage.login(userInfo.valid.username, userInfo.valid.password, page);
-        await expect(page.locator(loginPage.locatorForSuccessMessage)).toHaveText(message.loginSuccess);
+        await loginPage.loginSuccess(userInfo.valid.username, userInfo.valid.password);
         logger.info("Navigation to Launches page");
-        await launchPage.openLaunchPage(page);
-        await expect(page.locator(launchPage.locatorForFirstLaunch)).toBeVisible();
+        await launchPage.openPage();
+        await launchPage.locatorForFirstLaunch;
+        await launchPage.locatorFilterByStartTime.click();
+    });
+
+    for (let i = 0; i < testData.content.length; i++) {
+        test(`should have corresponding launch owner name: ${i + 1}`, async () => {
+            const expectedOwnerName = launchPage.getLaunchLocator(i);
+            const actualOwnerName = testData.content[i].owner;
+            await expect(expectedOwnerName).toHaveText(actualOwnerName);
+        });
+        test(`should have corresponding launch number: ${i + 1}`, async () => {
+            const expectedLaunchNumber = launchPage.getLaunchNumberLocator(i);
+            const actualLaunchNumber = `#${testData.content[i].number}`;
+            await expect(expectedLaunchNumber).toHaveText(actualLaunchNumber);
+        });
+        test(`should have corresponding automation bags count: ${i + 1}`, async () => {
+            if (Object.hasOwn(testData.content[i].statistics.defects, "automation_bug")) {
+                const expectedAutoBugs = launchPage.getAutomationBagLocator(i);
+                const actualAutoBugs = (testData.content[i].statistics.defects.automation_bug.total).toString();
+                await expect(expectedAutoBugs).toHaveText(actualAutoBugs);
+            }
+        });
+        test(`should have corresponding product bags count: ${i + 1}`, async () => {
+            if (Object.hasOwn(testData.content[i].statistics.defects, "product_bug")) {
+                const expectedProductBugs = launchPage.getProductBugLocator(i);
+                const actualProductBugs = (testData.content[i].statistics.defects.product_bug.total).toString();
+                await expect(expectedProductBugs).toHaveText(actualProductBugs);
+            }
+        });
+        test(`should have corresponding system issues count: ${i + 1}`, async () => {
+            if (Object.hasOwn(testData.content[i].statistics.defects, "system_issue")) {
+                const expectedSystemIssues = launchPage.getSystemIssueLocator(i);
+                const actualSystemIssues = (testData.content[i].statistics.defects.system_issue.total).toString();
+                await expect(expectedSystemIssues).toHaveText(actualSystemIssues);
+            }
+        });
+        test(`should have corresponding bags count to investigate: ${i + 1}`, async () => {
+            if (Object.hasOwn(testData.content[i].statistics.defects, "to_investigate")) {
+                const expectedToInvestigate = launchPage.getInvestigateLocator(i);
+                const actualToInvestigate = (testData.content[i].statistics.defects.to_investigate.total).toString();
+                await expect(expectedToInvestigate).toHaveText(actualToInvestigate);
+            }
+        });
+        test(`should have corresponding total tests count: ${i + 1}`, async () => {
+            if (Object.hasOwn(testData.content[i].statistics.executions, "total")) {
+                const expectedTotalTests = launchPage.getTotalTestsCountLocator(i);
+                const actualTotalTests = (testData.content[i].statistics.executions.total).toString();
+                await expect(expectedTotalTests).toHaveText(actualTotalTests);
+            }
+        });
+        test(`should have corresponding passed tests count: ${i + 1}`, async () => {
+            if (Object.hasOwn(testData.content[i].statistics.executions, "passed")) {
+                const expectedPassedTests = launchPage.getPassedTestsCountLocator(i);
+                const actualPassedTests = (testData.content[i].statistics.executions.passed).toString();
+                await expect(expectedPassedTests).toHaveText(actualPassedTests);
+            }
+        });
+        test(`should have corresponding failed tests count: ${i + 1}`, async () => {
+            if (Object.hasOwn(testData.content[i].statistics.executions, "failed")) {
+                const expectedFailedTests = launchPage.getFailedTestsCountLocator(i);
+                const actualFailedTests = (testData.content[i].statistics.executions.failed).toString();
+                await expect(expectedFailedTests).toHaveText(actualFailedTests);
+            }
+        });
+        test(`should have corresponding skipped tests count: ${i + 1}`, async () => {
+            if (Object.hasOwn(testData.content[i].statistics.executions, "skipped")) {
+                const expectedSkippedTests = launchPage.getSkippedTestsCountLocator(i);
+                const actualSkippedTests = (testData.content[i].statistics.executions.skipped).toString();
+                await expect(expectedSkippedTests).toHaveText(actualSkippedTests);
+            }
+        });
+    }
+});
+
+test.describe("Launches Filters", () => {
+    let page, launchPage, loginPage;
+
+    test.beforeAll(async () => {
+        const browser = await chromium.launch();
+        page = await browser.newPage();
+        launchPage = new LaunchPage(page);
+        loginPage = new LoginPage(page);
+        logger.info("Navigation to Login page");
+        await loginPage.openPage(page);
+        logger.info("Entering the correct username and password");
+        await loginPage.loginSuccess(userInfo.valid.username, userInfo.valid.password);
+        logger.info("Navigation to Launches page");
+        await launchPage.openPage();
+        await launchPage.locatorForFirstLaunch;
     });
 
     test("Start Time filter should work as expected", async () => {
-        await page.locator(launchPage.locatorFilterByStartTime).click();
-        for(let i = 0; i < testData.content.length; i++) {
-            await expect(page.locator(launchPage.getLaunchNumberLocator(i))).toHaveText(`#${testData.content[i].number}`);
+        await launchPage.locatorFilterByStartTime.click();
+        for (let i = 0; i < testData.content.length; i++) {
+            const expectedLaunchNumber = launchPage.getLaunchNumberLocator(i);
+            const actualLaunchNumber = `#${testData.content[i].number}`;
+            await expect(expectedLaunchNumber).toHaveText(actualLaunchNumber);
         }
     });
 
     test("Total filter should work as expected", async () => {
-        await page.locator(launchPage.locatorFilterByTotal).click();
-        let mapForFilteredTotalTestCount = launchPage.getSortedArrForEachFilterTests("total");
+        await launchPage.locatorFilterByTotal.click();
+        const mapForFilteredTotalTestCount = launchPage.getSortedArrForEachFilterTests("total");
         let j = 0;
-        for (let [key, value] of mapForFilteredTotalTestCount) {
+        let expectedTotalTests;
+        let actualTotalTests;
+        for (const [key, value] of mapForFilteredTotalTestCount) {
             if (Object.hasOwn(testData.content[key].statistics.executions, "total")) {
-                await expect(page.locator(launchPage.getTotalTestsCountLocator(j))).toHaveText(value.toString());
+                expectedTotalTests = launchPage.getTotalTestsCountLocator(j);
+                actualTotalTests = value.toString();
+                await expect(expectedTotalTests).toHaveText(actualTotalTests);
             }
             else {
-                expect(mapForFilteredTotalTestCount.get(key)).toBe(0);
+                expectedTotalTests = mapForFilteredTotalTestCount.get(key);
+                actualTotalTests = 0;
+                expect(expectedTotalTests).toBe(actualTotalTests);
             }
             j++;
         }
     });
 
     test("Passed filter should work as expected", async () => {
-        await page.locator(launchPage.locatorFilterByPassed).click();
-        let mapForFilteredPassedTestCount = launchPage.getSortedArrForEachFilterTests("passed");
+        await launchPage.locatorFilterByPassed.click();
+        const mapForFilteredPassedTestCount = launchPage.getSortedArrForEachFilterTests("passed");
         let j = 0;
-        for (let [key, value] of mapForFilteredPassedTestCount) {
+        let expectedPassedTests;
+        let actualPassedTests;
+        for (const [key, value] of mapForFilteredPassedTestCount) {
             if (Object.hasOwn(testData.content[key].statistics.executions, "passed")) {
-                await expect(page.locator(launchPage.getPassedTestsCountLocator(j))).toHaveText(value.toString());
+                expectedPassedTests = launchPage.getPassedTestsCountLocator(j);
+                actualPassedTests = value.toString();
+                await expect(expectedPassedTests).toHaveText(actualPassedTests);
             }
             else {
-                expect(mapForFilteredPassedTestCount.get(key)).toBe(0);
+                expectedPassedTests = mapForFilteredPassedTestCount.get(key);
+                actualPassedTests = 0;
+                expect(expectedPassedTests).toBe(actualPassedTests);
             }
             j++;
         }
@@ -131,90 +163,126 @@ test.describe("Launches Filters", () => {
 
     
     test("Failed filter should work as expected", async () => {
-        await page.locator(launchPage.locatorFilterByFailed).click();
-        let mapForFilteredFailedTestCount = launchPage.getSortedArrForEachFilterTests("failed");
+        await launchPage.locatorFilterByFailed.click();
+        const mapForFilteredFailedTestCount = launchPage.getSortedArrForEachFilterTests("failed");
         let j = 0;
-        for (let [key, value] of mapForFilteredFailedTestCount) {
+        let expectedFailedTests;
+        let actualFailedTests;
+        for (const [key, value] of mapForFilteredFailedTestCount) {
             if (Object.hasOwn(testData.content[key].statistics.executions, "failed")) {
-                await expect(page.locator(launchPage.getFailedTestsCountLocator(j))).toHaveText(value.toString());
+                expectedFailedTests = launchPage.getFailedTestsCountLocator(j);
+                actualFailedTests = value.toString();
+                await expect(expectedFailedTests).toHaveText(actualFailedTests);
             }
             else {
-                expect(mapForFilteredFailedTestCount.get(key)).toBe(0);
+                expectedFailedTests = mapForFilteredFailedTestCount.get(key);
+                actualFailedTests = 0;
+                expect(expectedFailedTests).toBe(actualFailedTests);
             }
             j++;
         }
     });
     
     test("Skipped filter should work as expected", async () => {
-        await page.locator(launchPage.locatorFilterBySkipped).click();
-        let mapForFilteredSkippedTestCount = launchPage.getSortedArrForEachFilterTests("skipped");
+        await launchPage.locatorFilterBySkipped.click();
+        const mapForFilteredSkippedTestCount = launchPage.getSortedArrForEachFilterTests("skipped");
         let j = 0;
-        for (let [key, value] of mapForFilteredSkippedTestCount) {
+        let expectedSkippedTests;
+        let actualSkippedTests;
+        for (const [key, value] of mapForFilteredSkippedTestCount) {
             if (Object.hasOwn(testData.content[key].statistics.executions, "skipped")) {
-                await expect(page.locator(launchPage.getSkippedTestsCountLocator(j))).toHaveText(value.toString());
+                expectedSkippedTests = launchPage.getSkippedTestsCountLocator(j);
+                actualSkippedTests = value.toString();
+                await expect(expectedSkippedTests).toHaveText(actualSkippedTests);
             }
             else {
-                expect(mapForFilteredSkippedTestCount.get(key)).toBe(0);
+                expectedSkippedTests = mapForFilteredSkippedTestCount.get(key);
+                actualSkippedTests = 0;
+                expect(expectedSkippedTests).toBe(actualSkippedTests);
             }
             j++;
         }
     });
 
     test("Product bug filter should work as expected", async () => {
-        await page.locator(launchPage.locatorFilterByProductBug).click();
-        let mapForFilteredProductBugCount = launchPage.getSortedArrForEachFilterBugs("product_bug");
+        await launchPage.locatorFilterByProductBug.click();
+        const mapForFilteredProductBugCount = launchPage.getSortedArrForEachFilterBugs("product_bug");
         let j = 0;
-        for (let [key, value] of mapForFilteredProductBugCount) {
+        let expectedProductBugs;
+        let actualProductBugs;
+        for (const [key, value] of mapForFilteredProductBugCount) {
             if (Object.hasOwn(testData.content[key].statistics.defects, "product_bug")) {
-                await expect(page.locator(launchPage.getProductBugLocator(j))).toHaveText(value.toString());
+                expectedProductBugs = launchPage.getProductBugLocator(j);
+                actualProductBugs = value.toString();
+                await expect(expectedProductBugs).toHaveText(actualProductBugs);
             }
             else {
-                expect(mapForFilteredProductBugCount.get(key)).toBe(0);
+                expectedProductBugs = mapForFilteredProductBugCount.get(key);
+                actualProductBugs = 0;
+                expect(expectedProductBugs).toBe(actualProductBugs);
             }
             j++;
         }
     });
 
     test("Automation bug filter should work as expected", async () => {
-        await page.locator(launchPage.locatorFilterByAutoBug).click();
-        let mapForFilteredAutoBugCount = launchPage.getSortedArrForEachFilterBugs("automation_bug");
+        await launchPage.locatorFilterByAutoBug.click();
+        const mapForFilteredAutoBugCount = launchPage.getSortedArrForEachFilterBugs("automation_bug");
         let j = 0;
-        for (let [key, value] of mapForFilteredAutoBugCount) {
+        let expectedAutomationBags;
+        let actualAutomationBags;
+        for (const [key, value] of mapForFilteredAutoBugCount) {
             if (Object.hasOwn(testData.content[key].statistics.defects, "automation_bug")) {
-                await expect(page.locator(launchPage.getAutomationBagLocator(j))).toHaveText(value.toString());
+                expectedAutomationBags = launchPage.getAutomationBagLocator(j);
+                actualAutomationBags = value.toString();
+                await expect(expectedAutomationBags).toHaveText(actualAutomationBags);
             }
             else {
-                expect(mapForFilteredAutoBugCount.get(key)).toBe(0);
+                expectedAutomationBags = mapForFilteredAutoBugCount.get(key);
+                actualAutomationBags = 0;
+                expect(expectedAutomationBags).toBe(actualAutomationBags);
             }
             j++;
         }
     });
 
     test("System Issue filter should work as expected", async () => {
-        await page.locator(launchPage.locatorFilterBySystemIssue).click();
-        let mapForFilteredSystemIssueCount = launchPage.getSortedArrForEachFilterBugs("system_issue");
+        await launchPage.locatorFilterBySystemIssue.click();
+        const mapForFilteredSystemIssueCount = launchPage.getSortedArrForEachFilterBugs("system_issue");
         let j = 0;
-        for (let [key, value] of mapForFilteredSystemIssueCount) {
+        let expectedSystemIssues;
+        let actualSystemIssues;
+        for (const [key, value] of mapForFilteredSystemIssueCount) {
             if (Object.hasOwn(testData.content[key].statistics.defects, "system_issue")) {
-                await expect(page.locator(launchPage.getSystemIssueLocator(j))).toHaveText(value.toString());
+                expectedSystemIssues = launchPage.getSystemIssueLocator(j);
+                actualSystemIssues = value.toString();
+                await expect(expectedSystemIssues).toHaveText(actualSystemIssues);
             }
             else {
-                expect(mapForFilteredSystemIssueCount.get(key)).toBe(0);
+                expectedSystemIssues = mapForFilteredSystemIssueCount.get(key);
+                actualSystemIssues = 0;
+                expect(expectedSystemIssues).toBe(actualSystemIssues);
             }
             j++;
         }
     });
     
     test("To Investigate filter should work as expected", async () => {
-        await page.locator(launchPage.locatorFilterByToInvestigate).click();
-        let mapForFilteredToInvestigateCount = launchPage.getSortedArrForEachFilterBugs("to_investigate");
+        await launchPage.locatorFilterByToInvestigate.click();
+        const mapForFilteredToInvestigateCount = launchPage.getSortedArrForEachFilterBugs("to_investigate");
         let j = 0;
-        for (let [key, value] of mapForFilteredToInvestigateCount) {
+        let expectedToInvestigates;
+        let actualToInvestigates;
+        for (const [key, value] of mapForFilteredToInvestigateCount) {
             if (Object.hasOwn(testData.content[key].statistics.defects, "to_investigate")) {
-                await expect(page.locator(launchPage.getInvestigateLocator(j))).toHaveText(value.toString());
+                expectedToInvestigates = launchPage.getInvestigateLocator(j);
+                actualToInvestigates = value.toString();
+                await expect(expectedToInvestigates).toHaveText(actualToInvestigates);
             }
             else {
-                expect(mapForFilteredToInvestigateCount.get(key)).toBe(0);
+                expectedToInvestigates = mapForFilteredToInvestigateCount.get(key);
+                actualToInvestigates = 0;
+                expect(expectedToInvestigates).toBe(actualToInvestigates);
             }
             j++;
         }

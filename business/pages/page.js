@@ -1,6 +1,10 @@
 export default class Page {
-    async open (path, page) {
-        await page.goto(path);
+    page;
+    constructor (page) {
+        this.page = page;
+    }
+    async open (path) {
+        await this.page.goto(path);
     }
 }
   

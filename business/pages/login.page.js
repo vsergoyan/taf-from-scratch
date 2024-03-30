@@ -1,16 +1,33 @@
 import Page from "./page.js";
+import { message } from "../../business/constants.js";
+import { expect } from "@playwright/test";
 
-class LoginPage extends Page {
-    locatorForSuccessMessage = "css=.notificationItem__message-container--eN8Rd.notificationItem__success--Yvo7V p";
-    locatorForFailMessage = "css=.notificationItem__message-container--eN8Rd.notificationItem__error--gkqHe p";
-    async openLoginPage (page) {
-        await super.open("https://reportportal.epam.com/ui/#login?redirectPath=%2Fvardeni_sergoyan_personal%2Flaunches%2Fall", page);
+export class LoginPage extends Page {
+    loginLocator;
+    passwordLocator;
+    submitButtonLocator;
+    locatorForSuccessMessage;
+    locatorForFailMessage;
+    constructor (page) {
+        super(page);
+        this.locatorForFailMessage = page.locator("div[class*='notificationItem__error--gkqHe'] p");
+        this.locatorForSuccessMessage = page.locator("div[class*='notificationItem__success--Yvo7V'] p");
+        this.loginLocator = page.locator("css=input[placeholder='Login']");
+        this.passwordLocator = page.locator("css=input[placeholder='Password']");
+        this.submitButtonLocator = page.locator("css=button[type='Submit']");
     }
-    async login (username, password, page) {
-        await page.locator("css=input[placeholder='Login']").fill(username);
-        await page.locator("css=input[placeholder='Password']").fill(password);
-        await page.locator("css=button[type='Submit']").click();
+    async openPage () {
+        await super.open("https://reportportal.epam.com/ui/#login");
+    }
+    async login (username, password) {
+        await this.loginLocator.fill(username);
+        await this.passwordLocator.fill(password);
+        await this.submitButtonLocator.click();
+    }
+    async loginSuccess (username, password) {
+        await this.loginLocator.fill(username);
+        await this.passwordLocator.fill(password);
+        await this.submitButtonLocator.click();
+        await expect(this.locatorForSuccessMessage).toHaveText(message.loginSuccess);
     }
 }
-
-export default new LoginPage();

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test --headed --project chromium --config=configuration/playwright.config.js",
+    "test:headless": "npx playwright test --project chromium --config=configuration/playwright.config.js",
     "lint": "npx eslint"
   },
   "keywords": [],
