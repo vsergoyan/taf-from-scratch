@@ -2,8 +2,8 @@ import { test, expect, chromium } from "@playwright/test";
 import { LaunchPage } from "../business/pages/launch.page.js";
 import { LoginPage } from "../business/pages/login.page.js";
 import { userInfo } from "../business/constants.js";
-import logger from "../utilites/Logger.js";
 import testData from "../resources/testData.json";
+import logger from "../utilites/Logger.js";
 
 test.describe("Launches Info", () => {
     let page, launchPage, loginPage;
@@ -161,7 +161,6 @@ test.describe("Launches Filters", () => {
         }
     });
 
-    
     test("Failed filter should work as expected", async () => {
         await launchPage.locatorFilterByFailed.click();
         const mapForFilteredFailedTestCount = launchPage.getSortedArrForEachFilterTests("failed");
