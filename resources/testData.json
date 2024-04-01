@@ -1,0 +1,262 @@
+{
+    "content": [
+      {
+        "owner": "vsergoyan",
+        "description": "### **Demonstration launch.**\nA typical *Launch structure* comprises the following elements: Suite > Test > Step > Log.\nLaunch contains *randomly* generated `suites`, `tests`, `steps` with:\n* random issues and statuses,\n* logs,\n* attachments with different formats.",
+        "id": 7012781,
+        "uuid": "e9c11c3c-ae64-4cd7-a35d-b7d835eb7ec2",
+        "name": "Demo Api Tests",
+        "number": 1,
+        "startTime": 1709553652851,
+        "endTime": 1709553654860,
+        "lastModified": 1709553654862,
+        "status": "FAILED",
+        "statistics": {
+          "executions": {
+            "total": 10,
+            "failed": 9,
+            "passed": 1
+          },
+          "defects": {
+            "system_issue": {
+              "total": 8,
+              "si001": 8
+            },
+            "to_investigate": {
+              "total": 5,
+              "ti001": 5
+            },
+            "automation_bug": {
+              "total": 1,
+              "ab001": 1
+            }
+          }
+        },
+        "attributes": [
+          {
+            "key": "build",
+            "value": "3.4.12.0.52"
+          },
+          {
+            "key": "platform",
+            "value": "android"
+          },
+          {
+            "key": null,
+            "value": "demo"
+          }
+        ],
+        "mode": "DEFAULT",
+        "analysing": [],
+        "approximateDuration": 0,
+        "hasRetries": true,
+        "rerun": false
+      },
+      {
+        "owner": "vsergoyan",
+        "description": "### **Demonstration launch.**\nA typical *Launch structure* comprises the following elements: Suite > Test > Step > Log.\nLaunch contains *randomly* generated `suites`, `tests`, `steps` with:\n* random issues and statuses,\n* logs,\n* attachments with different formats.",
+        "id": 7012782,
+        "uuid": "69fe246b-67ed-45e9-8e15-8eb6c63967c8",
+        "name": "Demo Api Tests",
+        "number": 2,
+        "startTime": 1709553654925,
+        "endTime": 1709553657255,
+        "lastModified": 1709553657256,
+        "status": "FAILED",
+        "statistics": {
+          "executions": {
+            "total": 15,
+            "passed": 5,
+            "failed": 9,
+            "skipped": 1
+          },
+          "defects": {
+            "system_issue": {
+              "total": 4,
+              "si001": 4
+            },
+            "product_bug": {
+              "total": 1,
+              "pb001": 1
+            },
+            "to_investigate": {
+              "total": 8,
+              "ti001": 8
+            },
+            "automation_bug": {
+              "total": 5,
+              "ab001": 5
+            }
+          }
+        },
+        "attributes": [
+          {
+            "key": "build",
+            "value": "3.4.12.0.54"
+          },
+          {
+            "key": null,
+            "value": "demo"
+          },
+          {
+            "key": "platform",
+            "value": "arch"
+          }
+        ],
+        "mode": "DEFAULT",
+        "analysing": [],
+        "approximateDuration": 2.009,
+        "hasRetries": true,
+        "rerun": false
+      },
+      {
+        "owner": "vsergoyan",
+        "description": "### **Demonstration launch.**\nA typical *Launch structure* comprises the following elements: Suite > Test > Step > Log.\nLaunch contains *randomly* generated `suites`, `tests`, `steps` with:\n* random issues and statuses,\n* logs,\n* attachments with different formats.",
+        "id": 7012783,
+        "uuid": "1bd11520-ca6d-4b1f-84bb-44c31d242edf",
+        "name": "Demo Api Tests",
+        "number": 3,
+        "startTime": 1709553657310,
+        "endTime": 1709553660036,
+        "lastModified": 1709553660038,
+        "status": "FAILED",
+        "statistics": {
+          "executions": {
+            "total": 20,
+            "failed": 8,
+            "passed": 10,
+            "skipped": 2
+          },
+          "defects": {
+            "product_bug": {
+              "total": 4,
+              "pb001": 4
+            },
+            "to_investigate": {
+              "total": 10,
+              "ti001": 10
+            },
+            "automation_bug": {
+              "total": 4,
+              "ab001": 4
+            }
+          }
+        },
+        "attributes": [
+          {
+            "key": "build",
+            "value": "3.4.12.0.57"
+          },
+          {
+            "key": null,
+            "value": "demo"
+          },
+          {
+            "key": "platform",
+            "value": "windows mobile"
+          }
+        ],
+        "mode": "DEFAULT",
+        "analysing": [],
+        "approximateDuration": 2.1695,
+        "hasRetries": true,
+        "rerun": false
+      },
+      {
+        "owner": "vsergoyan",
+        "description": "### **Demonstration launch.**\nA typical *Launch structure* comprises the following elements: Suite > Test > Step > Log.\nLaunch contains *randomly* generated `suites`, `tests`, `steps` with:\n* random issues and statuses,\n* logs,\n* attachments with different formats.",
+        "id": 7012784,
+        "uuid": "b9b206fb-a507-411a-aa9c-2b0f98e4e1ad",
+        "name": "Demo Api Tests",
+        "number": 4,
+        "startTime": 1709553660090,
+        "endTime": 1709553663111,
+        "lastModified": 1709553663113,
+        "status": "FAILED",
+        "statistics": {
+          "executions": {
+            "total": 25,
+            "failed": 5,
+            "passed": 20
+          },
+          "defects": {
+            "product_bug": {
+              "total": 4,
+              "pb001": 4
+            },
+            "to_investigate": {
+              "total": 2,
+              "ti001": 2
+            },
+            "automation_bug": {
+              "total": 1,
+              "ab001": 1
+            }
+          }
+        },
+        "attributes": [
+          {
+            "key": "build",
+            "value": "3.4.12.1.0"
+          },
+          {
+            "key": "platform",
+            "value": "ubuntu"
+          },
+          {
+            "key": null,
+            "value": "demo"
+          }
+        ],
+        "mode": "DEFAULT",
+        "analysing": [],
+        "approximateDuration": 2.355,
+        "hasRetries": true,
+        "rerun": false
+      },
+      {
+        "owner": "vsergoyan",
+        "description": "### **Demonstration launch.**\nA typical *Launch structure* comprises the following elements: Suite > Test > Step > Log.\nLaunch contains *randomly* generated `suites`, `tests`, `steps` with:\n* random issues and statuses,\n* logs,\n* attachments with different formats.",
+        "id": 7012785,
+        "uuid": "70827d76-b632-4566-b2cc-5152dee25613",
+        "name": "Demo Api Tests",
+        "number": 5,
+        "startTime": 1709553663174,
+        "endTime": 1709553666103,
+        "lastModified": 1709553666105,
+        "status": "PASSED",
+        "statistics": {
+          "executions": {
+            "total": 30,
+            "passed": 30
+          },
+          "defects": {}
+        },
+        "attributes": [
+          {
+            "key": "platform",
+            "value": "windows 7"
+          },
+          {
+            "key": "build",
+            "value": "3.4.12.1.3"
+          },
+          {
+            "key": null,
+            "value": "demo"
+          }
+        ],
+        "mode": "DEFAULT",
+        "analysing": [],
+        "approximateDuration": 2.5215,
+        "hasRetries": false,
+        "rerun": false
+      }
+    ],
+    "page": {
+      "number": 1,
+      "size": 20,
+      "totalElements": 5,
+      "totalPages": 1
+    }
+  }
