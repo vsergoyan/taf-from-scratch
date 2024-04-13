@@ -3,9 +3,10 @@ import { LaunchPage } from "../business/pages/launch.page.js";
 import { LoginPage } from "../business/pages/login.page.js";
 import { userInfo } from "../business/constants.js";
 import testData from "../resources/testData.json";
+// import { testData } from "../resources/testData.js";
 import logger from "../utilites/Logger.js";
 
-test.describe("Launches Info", () => {
+test.describe("Launches Info", async () => {
     let page, launchPage, loginPage;
 
     test.beforeAll(async () => {
